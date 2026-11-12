@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+  <testsuite name="avionics-mixed-ci-run" tests="8" errors="1" failures="1" skipped="1" time="0.194">
+    <testcase classname="test_flight_nav" name="test_gps_loss_dead_reckoning" time="0.044"/>
+    <testcase classname="test_flight_nav" name="test_triple_imu_voter_failover" time="0.032"/>
+    <testcase classname="test_flight_nav" name="test_kalman_drift_over_60s" time="0.055">
+      <failure message="AssertionError: drift 5.8m exceeded 5.0m ceiling">assert 5.8 &lt; 5.0</failure>
+    </testcase>
+    <testcase classname="test_flight_nav" name="test_diagnostic_uart_banner" time="0.004">
+      <error message="Serial loopback timeout on UART0">TimeoutError</error>
+    </testcase>
+    <testcase classname="test_power_bus" name="test_emergency_battery_sustains_24v_bus_for_30_minutes" time="0.026"/>
+    <testcase classname="test_avionics_gtest" name="FlightControlTest.ImuFailoverMaintenance" time="0.018"/>
+    <testcase classname="test_avionics_gtest" name="KalmanSuite.DeadReckoningDrift" time="0.015">
+      <failure message="Expected measured_drift_meters &lt; 5.0, actual 5.42">ASSERT_TRUE failure</failure>
+    </testcase>
+    <testcase classname="test_embedded_c_harness" name="ArincBus.OverloadShedding" time="0.000">
+      <skipped message="Requires HIL ARINC-429 signal generator"/>
+    </testcase>
+  </testsuite>
+</testsuites>
+

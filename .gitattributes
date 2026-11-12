@@ -1,0 +1,4 @@
+# Auto-merge review event streams and jsonl logs using union strategy
+.reqtrace/*.jsonl merge=union
+*.jsonl merge=union
+

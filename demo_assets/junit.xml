@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+  <testsuite name="flight-tests" tests="2" errors="0" failures="0" skipped="0" time="0.05">
+    <testcase classname="tests.test_nav" name="test_gps_loss_switches_to_dead_reckoning" time="0.038"/>
+    <testcase classname="tests.test_nav" name="test_unlinked_rogue_case" time="0.005"/>
+  </testsuite>
+</testsuites>
+

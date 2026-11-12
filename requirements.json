@@ -1,0 +1,61 @@
+[
+  {
+    "id": "SYS-NAV-001",
+    "revision": "2026-11-01T12:00:00Z",
+    "title": "The aircraft flight control computer shall maintain state estimation during sensor failover",
+    "description": "The aircraft flight control computer shall maintain state estimation during sensor failover.",
+    "is_normative": true,
+    "level": "system",
+    "source_file": "spec.reqif",
+    "source_offset": null,
+    "req_type": "functional",
+    "parent_ids": [],
+    "attributes": {
+      "Customer_Req_Number": "SYS-NAV-001",
+      "Requirement Level": "System",
+      "Object Type": "Requirement",
+      "ReqIF.Text": "<ns0:div xmlns:ns0=\"http://www.omg.org/spec/ReqIF/20110401/reqif.xsd\"><ns0:p>The aircraft flight control computer <ns0:b>shall maintain state estimation</ns0:b> during sensor failover.</ns0:p></ns0:div>"
+    },
+    "sha256": "5a177225f95bba4e6717e2e4656ce3d02509aaa48d14b4f347b673cc69cd37cc"
+  },
+  {
+    "id": "REQ-NAV-0104",
+    "revision": "2026-11-01T12:00:00Z",
+    "title": "The navigation system shall switch to inertial dead-reckoning within 200ms of GPS loss",
+    "description": "The navigation system shall switch to inertial dead-reckoning within 200ms of GPS loss.",
+    "is_normative": true,
+    "level": "high_level",
+    "source_file": "spec.reqif",
+    "source_offset": null,
+    "req_type": "functional",
+    "parent_ids": [
+      "SYS-NAV-001"
+    ],
+    "attributes": {
+      "Customer_Req_Number": "REQ-NAV-0104",
+      "Requirement Level": "High-Level",
+      "Object Type": "Requirement",
+      "ReqIF.Text": "<ns0:div xmlns:ns0=\"http://www.omg.org/spec/ReqIF/20110401/reqif.xsd\"><ns0:p>The navigation system <ns0:b>shall switch</ns0:b> to inertial dead-reckoning within 200ms of GPS loss.</ns0:p></ns0:div>"
+    },
+    "sha256": "3443dbacafed094321118aa9ca761413c335918ee5a8e3a7961054e5f0bf8dc8"
+  },
+  {
+    "id": "REQ-PWR-002",
+    "revision": "2026-11-01T12:00:00Z",
+    "title": "Backup battery supply shall sustain avionics bus power for at least 30 minutes",
+    "description": "Backup battery supply shall sustain avionics bus power for at least 30 minutes.",
+    "is_normative": true,
+    "level": "low_level",
+    "source_file": "spec.reqif",
+    "source_offset": null,
+    "req_type": "functional",
+    "parent_ids": [],
+    "attributes": {
+      "Customer_Req_Number": "REQ-PWR-002",
+      "Requirement Level": "Low-Level",
+      "Object Type": "Requirement",
+      "ReqIF.Text": "<ns0:div xmlns:ns0=\"http://www.omg.org/spec/ReqIF/20110401/reqif.xsd\"><ns0:p>Backup battery supply shall sustain avionics bus power for at least 30 minutes.</ns0:p></ns0:div>"
+    },
+    "sha256": "38fc4a532acd330dd6a5e34eb546648c65781311b004343b7917a1e382d5d120"
+  }
+]

@@ -1,0 +1,4 @@
+Requirement ID,Requirement Title,Level,Normative,Parent Allocations,Linked Test ID,Assertion Span,Execution Status,Confidence,Confidence Score,Review Status,Reviewed By,Review Comment,Is Stale,Live Verified
+SYS-NAV-001,The aircraft flight control computer shall maintain state estimation during sensor failover,system,Yes,,[ORPHAN - NO TEST],,UNEXECUTED,NONE,0.00,PENDING,,,No,FALSE
+REQ-NAV-0104,The navigation system shall switch to inertial dead-reckoning within 200ms of GPS loss,high_level,Yes,SYS-NAV-001,test_nav.py::test_gps_loss_switches_to_dead_reckoning,assert mode == 'INERTIAL',PASSED,VERIFIED,1.00,PENDING,,,No,TRUE
+REQ-PWR-002,Backup battery supply shall sustain avionics bus power for at least 30 minutes,low_level,Yes,,[ORPHAN - NO TEST],,UNEXECUTED,NONE,0.00,PENDING,,,No,FALSE
