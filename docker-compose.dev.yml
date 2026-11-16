@@ -1,0 +1,17 @@
+# ==============================================================================
+# ReqTrace Community Edition v0.2.0 - Docker Compose (Developer / Local Build)
+# Builds local container image from source Dockerfile
+# ==============================================================================
+
+services:
+  reqtrace:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: airgapaxis/reqtrace:dev
+    container_name: reqtrace-cockpit-dev
+    ports:
+      - "127.0.0.1:8765:8765"
+    volumes:
+      - ./:/workspace
+    restart: "no"

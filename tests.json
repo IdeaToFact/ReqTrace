@@ -1,0 +1,33 @@
+[
+  {
+    "id": "test_nav.py::test_gps_loss_switches_to_dead_reckoning",
+    "file_path": "demo_assets/tests/test_nav.py",
+    "line_start": 4,
+    "line_end": 9,
+    "framework": "pytest",
+    "declared_req_refs": [
+      "REQ-NAV-0104"
+    ],
+    "assertion_statements": [
+      "assert mode == 'INERTIAL'",
+      "assert latency_ms <= 200"
+    ],
+    "execution_status": "passed",
+    "execution_time_sec": 0.038,
+    "sha256": "6ecc59c08f4846df25e12777716a096f8fda6acffd73bc345b811bfc802bacb2"
+  },
+  {
+    "id": "test_nav.py::test_unlinked_rogue_case",
+    "file_path": "demo_assets/tests/test_nav.py",
+    "line_start": 11,
+    "line_end": 13,
+    "framework": "pytest",
+    "declared_req_refs": [],
+    "assertion_statements": [
+      "assert 1 + 1 == 2"
+    ],
+    "execution_status": "passed",
+    "execution_time_sec": 0.005,
+    "sha256": "ba13ffe5ac555d7993f7a902cf8c6ce4562d47cfd49d37b9b7349e7a05307335"
+  }
+]

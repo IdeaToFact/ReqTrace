@@ -1,0 +1,10 @@
+id;title;description;level;parents;normative;revision
+SEC-01;Section 1: Flight Control Scope;Informative scope overview for Flight Control Suite Rev 1.0.;system;;false;1.0
+SYS-FLT-001;Triple-Modular IMU Failover;The flight control computer shall maintain triple-modular redundant attitude estimation during single IMU failure.;system;;true;1.0
+REQ-NAV-101;GPS Loss Dead-Reckoning Switchover;The navigation subsystem shall switch to inertial dead-reckoning within 200ms of GPS signal loss.;high_level;SYS-FLT-001;true;1.0
+REQ-NAV-102;Kalman Position Drift Ceiling;Kalman filter position drift shall remain below 5.0 meters over any 60-second dead-reckoning interval.;high_level;SYS-FLT-001;true;1.0
+REQ-PWR-201;Emergency Battery Bus Sustain;Emergency backup battery shall sustain primary avionics bus voltage above 24.0V for at least 30 minutes.;low_level;SYS-FLT-001;true;1.0
+REQ-COM-301;ARINC-429 Bus Overload Shedding;ARINC-429 telemetry bus scheduler shall drop non-critical frames when bus utilization exceeds 85 percent.;low_level;;true;1.0
+REQ-HYD-401;Hydraulic Actuator Bypass Protection;Hydraulic actuator servo loop shall detect pressure drop below 1800 PSI and engage bypass valve within 50ms.;high_level;;true;1.0
+REQ-ORPHAN-900;Crash Memory AES-256 Encryption;Cockpit flight data recorder shall encrypt solid-state crash memory using AES-256-GCM at rest.;low_level;;true;1.0
+

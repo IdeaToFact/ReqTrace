@@ -1,0 +1,331 @@
+<!-- Copyright (C) 2026 Idea To Fact LLC -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReqTrace | Local Workspace Cockpit</title>
+  <link rel="stylesheet" href="/app.css">
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header>
+    <div class="brand">
+      <h1>🎯 ReqTrace</h1>
+      <span class="tag">Local Cockpit v0.2.0</span>
+      <button id="btn-workspace-picker" class="workspace-pill">📁 <span id="ws-display-name">Loading Workspace...</span> ▾</button>
+    </div>
+    <div class="header-actions">
+      <button id="btn-import-modal" class="btn-action">📁 Import Files</button>
+      <div class="dropdown-container">
+        <button id="btn-export-dropdown" class="btn-action">📥 Export ▾</button>
+        <div id="export-menu" class="dropdown-menu">
+          <a href="/api/v1/export/csv" download id="export-csv-link">📄 CSV Trace Matrix</a>
+          <a href="/api/v1/export/reqif" download id="export-reqif-link">📑 Enriched ReqIF XML</a>
+          <a href="/api/v1/export/html" download id="export-html-link">🌐 Standalone HTML Report</a>
+          <a href="/api/v1/export/json" download id="export-json-link">📊 Executive JSON Summary</a>
+        </div>
+      </div>
+      <button id="btn-print" class="btn-action">🖨️ Print View</button>
+      <button id="btn-about" class="btn-action">ℹ️ About</button>
+    </div>
+  </header>
+
+  <!-- Navigation Tabs -->
+  <nav class="nav-tabs">
+    <button id="tab-matrix" class="nav-tab active">📊 Traceability Matrix</button>
+    <button id="tab-candidates" class="nav-tab">
+      🔍 Candidate Review Queue <span id="cand-badge" class="badge-pill">0</span>
+    </button>
+  </nav>
+
+  <div id="session-alert" class="alert-banner">
+    <span id="session-alert-msg">Session expired or unauthorized. Please launch via terminal: <code>reqtrace ui</code></span>
+  </div>
+
+  <!-- TAB 1: TRACEABILITY MATRIX VIEW -->
+  <main id="view-matrix">
+    <!-- Executive Audit Dashboard KPI Cards -->
+    <section class="kpi-grid">
+      <div class="kpi-card">
+        <span class="kpi-label">Verified (Reviewed)</span>
+        <span class="kpi-val verified" id="kpi-verified">-</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Linked & Passing</span>
+        <span class="kpi-val passing" id="kpi-passing">-</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Unverified Gaps</span>
+        <span class="kpi-val gap" id="kpi-gaps">-</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Verified Coverage</span>
+        <span class="kpi-val verified" id="kpi-cov-verified">-</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Pass Coverage</span>
+        <span class="kpi-val passing" id="kpi-cov-eng">-</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Rogue Tests</span>
+        <span class="kpi-val stale" id="kpi-rogue">-</span>
+      </div>
+    </section>
+
+    <!-- Diagnostic Reasons Partition -->
+    <section class="reasons-container">
+      <div class="reasons-header">
+        <h2>Diagnostic Gap Breakdown (Total Gaps: <span id="reasons-total">-</span>)</h2>
+        <span class="text-muted-xs">Click any reason pill to filter matrix</span>
+      </div>
+      <div class="reason-pills" id="reason-pills-list"></div>
+    </section>
+
+    <!-- Matrix Controls & Filters -->
+    <div class="controls">
+      <input type="text" id="search-box" class="search-box" placeholder="Search Requirement ID, Title, or Linked Test... (Press / to focus)" />
+      
+      <select id="status-filter">
+        <option value="">All Verification Statuses</option>
+        <option value="verified">Verified (Approved)</option>
+        <option value="linked_passing">Linked & Passing (CI Green)</option>
+        <option value="unverified_gap">Unverified Gap</option>
+      </select>
+
+      <select id="method-filter">
+        <option value="">All Verification Methods</option>
+        <option value="test">Test Execution</option>
+        <option value="analysis">Analysis</option>
+        <option value="inspection">Inspection</option>
+        <option value="review">Review</option>
+        <option value="demonstration">Demonstration</option>
+      </select>
+
+      <select id="level-filter">
+        <option value="">All Levels</option>
+        <option value="system">System</option>
+        <option value="high_level">High-Level (HLR)</option>
+        <option value="low_level">Low-Level (LLR)</option>
+        <option value="architecture">Architecture</option>
+      </select>
+
+      <button id="btn-refresh">🔄 Refresh</button>
+    </div>
+
+    <!-- Requirements Traceability Matrix Grid -->
+    <section class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th class="w-req-id">Requirement ID</th>
+            <th>Title & Statement</th>
+            <th class="w-method">Method</th>
+            <th class="w-level">Level</th>
+            <th class="w-status">Status</th>
+            <th class="w-reason">Diagnostic Reason</th>
+            <th class="w-evidence">Linked Evidence</th>
+            <th class="w-action">Action</th>
+          </tr>
+        </thead>
+        <tbody id="matrix-tbody">
+          <tr><td colspan="8" class="table-placeholder">Loading Workspace Traceability Matrix...</td></tr>
+        </tbody>
+      </table>
+    </section>
+  </main>
+
+  <!-- TAB 2: CANDIDATE REVIEW QUEUE VIEW -->
+  <main id="view-candidates" class="hidden">
+    <div class="queue-header">
+      <h2>Heuristic & Fuzzy Candidate Links (<span id="queue-total">0</span> Pending)</h2>
+      <p class="text-muted-sm">Review algorithm-proposed verification links. Approving promotes the candidate to confirmed status; rejecting excludes the candidate link.</p>
+    </div>
+    <div id="candidates-container" class="queue-grid">
+      <div class="card-empty">No candidate links pending human review.</div>
+    </div>
+  </main>
+
+  <!-- Slide-Over Evidence Drawer -->
+  <div class="drawer-overlay" id="drawer-overlay"></div>
+  <aside class="drawer" id="drawer">
+    <div class="drawer-header">
+      <h2 id="drawer-req-id">Requirement Evidence</h2>
+      <button id="btn-close-drawer">✕ Close</button>
+    </div>
+    <div id="drawer-content"></div>
+  </aside>
+
+  <!-- Workspace Lifecycle Modal -->
+  <div class="modal-overlay" id="workspace-modal">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h2>Workspace Lifecycle Manager</h2>
+        <button id="btn-close-ws-modal" class="btn-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="ws-current-info">
+          <strong>Active Workspace:</strong> <code id="modal-ws-path">-</code><br>
+          <strong>Project:</strong> <span id="modal-ws-project">-</span> | <strong>Standard:</strong> <span id="modal-ws-standard">-</span> | <strong>Baseline:</strong> <span id="modal-ws-baseline">-</span>
+        </div>
+
+        <div class="ws-sections-grid">
+          <!-- Open Existing Directory Form -->
+          <div class="ws-section-box">
+            <h3>Open Workspace Directory</h3>
+            <p class="text-muted-xs">Select an existing directory on your machine.</p>
+            <div class="form-group">
+              <label for="input-open-path">Directory Absolute Path:</label>
+              <input type="text" id="input-open-path" placeholder="e.g. D:\projects\flight-controls" class="input-full">
+            </div>
+            <button id="btn-submit-open-ws" class="primary btn-full">📂 Open Directory</button>
+          </div>
+
+          <!-- Initialize New Workspace Form (Option B) -->
+          <div class="ws-section-box">
+            <h3>Initialize in Existing Directory</h3>
+            <p class="text-muted-xs">Path MUST already exist on disk (Option B enforced).</p>
+            <div class="form-group">
+              <label for="input-init-path">Existing Directory Path:</label>
+              <input type="text" id="input-init-path" placeholder="e.g. D:\projects\new-subsystem" class="input-full">
+            </div>
+            <div class="form-group">
+              <label for="input-init-name">Project Friendly Name:</label>
+              <input type="text" id="input-init-name" placeholder="e.g. GPS Navigation SVVP" class="input-full">
+            </div>
+            <div class="form-group">
+              <label for="select-init-standard">Target Safety Standard:</label>
+              <select id="select-init-standard" class="input-full">
+                <option value="DO-178C DAL A">DO-178C DAL A (Aviation Flight-Critical)</option>
+                <option value="DO-178C DAL B" selected>DO-178C DAL B (Aviation High-Integrity)</option>
+                <option value="DO-254 DAL A">DO-254 DAL A (Complex Electronic Hardware)</option>
+                <option value="ISO 26262 ASIL D">ISO 26262 ASIL D (Automotive Safety)</option>
+                <option value="IEC 62304 Class C">IEC 62304 Class C (Medical Device Life-Support)</option>
+              </select>
+            </div>
+            <button id="btn-submit-init-ws" class="primary btn-full">✨ Initialize Workspace</button>
+          </div>
+        </div>
+
+        <!-- Recent Workspaces -->
+        <div class="ws-recent-section">
+          <h3>Recent Workspaces</h3>
+          <ul id="recent-workspaces-list" class="recent-list">
+            <li class="text-muted-sm">Loading recent workspaces...</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ingestion Wizard Dropzone Modal -->
+  <div class="modal-overlay" id="ingest-modal">
+    <div class="modal modal-lg">
+      <div class="modal-header">
+        <h2>File Ingestion Wizard</h2>
+        <button id="btn-close-ingest-modal" class="btn-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted-sm">Drag and drop files to ingest requirements specifications or test execution results. Enforces a 25MB safety ceiling and atomic workspace persistence.</p>
+        
+        <div class="dropzone-grid">
+          <!-- Requirements Dropzone -->
+          <div class="dropzone-box" id="dropzone-spec">
+            <div class="dropzone-icon">📑</div>
+            <h4>Requirements Specification</h4>
+            <p class="dropzone-formats">.reqif &bull; .docx &bull; .csv &bull; .xml</p>
+            <p class="dropzone-prompt">Drag & drop spec file here, or click to browse</p>
+            <input type="file" id="file-input-spec" class="file-hidden" accept=".reqif,.xml,.csv,.docx">
+            <div id="spec-upload-status" class="upload-status"></div>
+          </div>
+
+          <!-- Tests Dropzone -->
+          <div class="dropzone-box" id="dropzone-tests">
+            <div class="dropzone-icon">🧪</div>
+            <h4>Test Artifacts & Verdicts</h4>
+            <p class="dropzone-formats">JUnit (.xml) &bull; Python (.py) &bull; C++ (.cpp/.h) &bull; Gherkin (.feature)</p>
+            <p class="dropzone-prompt">Drag & drop test file here, or click to browse</p>
+            <input type="file" id="file-input-tests" class="file-hidden" accept=".xml,.py,.cpp,.c,.h,.feature">
+            <div id="tests-upload-status" class="upload-status"></div>
+          </div>
+        </div>
+
+        <div id="ingest-feedback" class="ingest-feedback"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Review Sign-Off Modal -->
+  <div class="modal-overlay" id="review-modal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Human Review Sign-Off</h2>
+        <button id="btn-close-review-modal" class="btn-close">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <strong>Requirement:</strong> <span id="review-modal-req-id">-</span>: <span id="review-modal-req-title">-</span>
+        </div>
+        <div class="form-group" id="review-modal-test-group">
+          <strong>Linked Test:</strong> <code id="review-modal-test-id">-</code>
+        </div>
+        
+        <div class="form-group">
+          <label for="review-input-name">Reviewer Identity:</label>
+          <input type="text" id="review-input-name" class="input-full" placeholder="e.g. Alice Engineer <alice@aero.org>">
+        </div>
+
+        <div class="form-group">
+          <label>Review Decision:</label>
+          <div class="decision-radios">
+            <label class="radio-label">
+              <input type="radio" name="review-decision" value="approved" checked>
+              <span>🟢 Approve Verification Link</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="review-decision" value="rejected">
+              <span>🔴 Reject Link (Mandatory Comment)</span>
+            </label>
+            <label class="radio-label">
+              <input type="radio" name="review-decision" value="waived_analysis">
+              <span>🟡 Waive Non-Test Analysis (Mandatory Doc)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group" id="group-review-comment">
+          <label for="review-input-comment">Review Notes / Rejection Reason:</label>
+          <textarea id="review-input-comment" class="input-full" rows="3" placeholder="Explain the verification justification or rejection reason..."></textarea>
+        </div>
+
+        <div class="form-group hidden" id="group-review-ref-doc">
+          <label for="review-input-ref-doc">Reference Document Identifier:</label>
+          <input type="text" id="review-input-ref-doc" class="input-full" placeholder="e.g. DOC-STRUCT-FEA-001">
+        </div>
+
+        <div class="modal-actions">
+          <button id="btn-cancel-review" class="btn-action">Cancel</button>
+          <button id="btn-submit-review" class="primary">✍️ Submit Sign-Off</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- About Dialog Modal -->
+  <div class="modal-overlay" id="about-modal">
+    <div class="modal">
+      <h2>About ReqTrace</h2>
+      <p class="modal-desc">Grounded Requirements Traceability & Audit Gap Copilot</p>
+      <p class="modal-line"><strong>Version:</strong> 0.2.0 (Local Verification Workspace)</p>
+      <p class="modal-line"><strong>License:</strong> GNU Affero General Public License v3.0 (AGPL-3.0-only)</p>
+      <p class="modal-line"><strong>Copyright:</strong> &copy; Idea To Fact LLC</p>
+      <p class="modal-line-last"><strong>Source Code:</strong> <a href="https://github.com/ideatofact/reqtrace" target="_blank" rel="noopener" class="modal-link">github.com/ideatofact/reqtrace</a></p>
+      <button id="btn-close-about" class="primary btn-full">Close</button>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+ReqTrace Community Edition
+Copyright (C) 2026 Idea To Fact LLC
+
+SPDX-License-Identifier: AGPL-3.0-only
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License for more details.
+
+You should have received a copy of the GNU Affero General Public License
+along with this program (see LICENSE). If not, see <https://www.gnu.org/licenses/>.
+
+--------------------------------------------------------------------------------
+Commercial Licensing & Trademarks Notice:
+
+ReqTrace Community Edition is made available to the public under the GNU Affero
+General Public License v3.0 (AGPL-3.0-only). Idea To Fact LLC, as copyright
+holder, also offers separate Commercial Licenses for organizations requiring
+proprietary embedding, multi-user enterprise deployments, DO-330 qualification
+support kits, or exemption from AGPLv3 copyleft obligations (see docs/EDITIONS.md
+and docs/commercial/COMMERCIAL_TERMS_FRAMEWORK.md).
+
+ReqTrace(TM), AirGap Axis(TM), and Idea To Fact(TM) are trademarks of
+Idea To Fact LLC. The GNU Affero General Public License does not grant trademark
+rights to use these names or associated brand marks for forks, modified
+distributions, or commercial services without prior written permission.
+See docs/TRADEMARKS.md for complete details.
+See DISCLAIMER.md for warranty disclaimers and safety-critical usage boundaries.
+
+For commercial licensing inquiries, custom enterprise deployments, or proprietary
+integrations, contact:
+Idea To Fact LLC
+Website: https://ideatofact.com
+Email: licensing@ideatofact.com

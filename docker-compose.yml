@@ -1,0 +1,14 @@
+# ==============================================================================
+# ReqTrace Community Edition v0.2.0 - Docker Compose (Production / User)
+# Pulls verified air-gapped container image from Docker Hub / GHCR
+# ==============================================================================
+
+services:
+  reqtrace:
+    image: airgapaxis/reqtrace:0.2.0-community
+    container_name: reqtrace-cockpit
+    ports:
+      - "127.0.0.1:8765:8765"
+    volumes:
+      - ./:/workspace
+    restart: "no"

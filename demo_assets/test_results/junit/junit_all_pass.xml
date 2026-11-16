@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+  <testsuite name="avionics-full-pass" tests="8" errors="0" failures="0" skipped="0" time="0.215">
+    <testcase classname="test_flight_nav" name="test_gps_loss_dead_reckoning" time="0.042"/>
+    <testcase classname="test_flight_nav" name="test_triple_imu_voter_failover" time="0.031"/>
+    <testcase classname="test_flight_nav" name="test_kalman_drift_over_60s" time="0.058"/>
+    <testcase classname="test_flight_nav" name="test_diagnostic_uart_banner" time="0.008"/>
+    <testcase classname="test_power_bus" name="test_emergency_battery_sustains_24v_bus_for_30_minutes" time="0.025"/>
+    <testcase classname="test_avionics_gtest" name="FlightControlTest.ImuFailoverMaintenance" time="0.019"/>
+    <testcase classname="test_avionics_gtest" name="KalmanSuite.DeadReckoningDrift" time="0.021"/>
+    <testcase classname="test_embedded_c_harness" name="ArincBus.OverloadShedding" time="0.011"/>
+  </testsuite>
+</testsuites>

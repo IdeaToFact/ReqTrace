@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<REQ-IF xmlns="http://www.omg.org/spec/ReqIF/20110401/reqif.xsd">
+  <THE-HEADER>
+    <REQ-IF-HEADER IDENTIFIER="reqtrace_header" CREATION_TIME="2026-11-06T19:16:36.817817+00:00" REQ_IF_TOOL_ID="ReqTrace Community Edition v0.1.0" TITLE="Requirements Traceability and Verification Package"/>
+  </THE-HEADER>
+  <CORE-CONTENT>
+    <REQ-IF-CONTENT>
+      <SPEC-TYPES>
+        <SPEC-OBJECT-TYPE IDENTIFIER="type_requirement" LONG_NAME="Requirement">
+          <SPEC-ATTRIBUTES>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="attr_id" LONG_NAME="Customer_Req_Number"/>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="attr_title" LONG_NAME="ReqIF.Name"/>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="attr_desc" LONG_NAME="ReqIF.Text"/>
+            <ATTRIBUTE-DEFINITION-STRING IDENTIFIER="attr_level" LONG_NAME="Requirement Level"/>
+          </SPEC-ATTRIBUTES>
+        </SPEC-OBJECT-TYPE>
+      </SPEC-TYPES>
+      <SPEC-OBJECTS>
+        <SPEC-OBJECT IDENTIFIER="req_SYS-NAV-001" LAST_CHANGE="2026-11-06T19:16:36.817817+00:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE_VALUE="SYS-NAV-001">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>attr_id</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE_VALUE="The aircraft flight control computer shall maintain state estimation during sensor failover">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>attr_title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE_VALUE="The aircraft flight control computer shall maintain state estimation during sensor failover.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>attr_desc</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE_VALUE="system">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>attr_level</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="req_REQ-NAV-0104" LAST_CHANGE="2026-11-06T19:16:36.817817+00:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE_VALUE="REQ-NAV-0104">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>attr_id</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE_VALUE="The navigation system shall switch to inertial dead-reckoning within 200ms of GPS loss">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>attr_title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE_VALUE="The navigation system shall switch to inertial dead-reckoning within 200ms of GPS loss.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>attr_desc</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE_VALUE="high_level">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>attr_level</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-OBJECT>
+        <SPEC-OBJECT IDENTIFIER="req_REQ-PWR-002" LAST_CHANGE="2026-11-06T19:16:36.817817+00:00">
+          <VALUES>
+            <ATTRIBUTE-VALUE-STRING THE_VALUE="REQ-PWR-002">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>attr_id</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE_VALUE="Backup battery supply shall sustain avionics bus power for at least 30 minutes">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>attr_title</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE_VALUE="Backup battery supply shall sustain avionics bus power for at least 30 minutes.">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>attr_desc</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+            <ATTRIBUTE-VALUE-STRING THE_VALUE="low_level">
+              <DEFINITION>
+                <ATTRIBUTE-DEFINITION-STRING-REF>attr_level</ATTRIBUTE-DEFINITION-STRING-REF>
+              </DEFINITION>
+            </ATTRIBUTE-VALUE-STRING>
+          </VALUES>
+        </SPEC-OBJECT>
+      </SPEC-OBJECTS>
+      <SPEC-RELATIONS>
+        <SPEC-RELATION IDENTIFIER="rel_alloc_REQ-NAV-0104_SYS-NAV-001">
+          <SOURCE>
+            <SPEC-OBJECT-REF>req_REQ-NAV-0104</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>req_SYS-NAV-001</SPEC-OBJECT-REF>
+          </TARGET>
+        </SPEC-RELATION>
+        <SPEC-RELATION IDENTIFIER="rel_trace_1">
+          <SOURCE>
+            <SPEC-OBJECT-REF>req_REQ-NAV-0104</SPEC-OBJECT-REF>
+          </SOURCE>
+          <TARGET>
+            <SPEC-OBJECT-REF>test_nav.py::test_gps_loss_switches_to_dead_reckoning</SPEC-OBJECT-REF>
+          </TARGET>
+        </SPEC-RELATION>
+      </SPEC-RELATIONS>
+    </REQ-IF-CONTENT>
+  </CORE-CONTENT>
+</REQ-IF>

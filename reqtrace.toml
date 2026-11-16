@@ -1,0 +1,39 @@
+# ReqTrace Project Configuration
+# Safety-Critical Requirements Traceability & Audit Gap Copilot
+
+[project]
+name = "FlightControl-VnV"
+version = "1.0.0"
+standard = "DO-178C" # "DO-178C", "ISO-26262", "IEC-62304", "DO-254"
+
+[reqif.mapping]
+id_attribute = "Customer_Req_Number"
+text_attribute = "ReqIF.Text"
+type_attribute = "Object Type"
+normative_value = "Requirement"     # Objects matching this attribute value are treated as normative
+level_attribute = "Requirement Level"
+
+[parsers.sanitizer]
+strip_xhtml = true                  # Removes <p>, <b>, table tags from ReqIF.Text
+normalize_whitespace = true
+
+[parsers.cpp]
+test_macro_names = ["TEST", "TEST_F", "MY_FLIGHT_TEST", "VERIFY_BLOCK"]
+assert_macro_names = ["ASSERT_EQ", "ASSERT_TRUE", "ASSERT_FALSE", "EXPECT_EQ", "EXPECT_TRUE", "EXPECT_FALSE", "VERIFY_SIGNAL", "CHECK_BOUNDS"]
+
+[execution.junit]
+reports = ["test-results/junit.xml", "build/test-reports/*.xml"]
+
+[models]
+cache_dir = ".reqtrace/models"
+embedding_model = "BAAI/bge-small-en-v1.5"
+offline_fallback_deterministic = true
+
+[thresholds]
+min_coverage_pct = 95.0
+fail_on_orphans = true
+fail_on_test_failures = true
+fail_on_stale_reviews = true
+high_confidence_threshold = 0.85
+medium_confidence_threshold = 0.60
+
